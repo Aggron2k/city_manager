@@ -15,7 +15,7 @@ if (isset($_POST['county_id']) && !empty($_POST['county_id'])) {
     $cities_result = $conn->query("SELECT c.id, c.name FROM cities c JOIN support s ON c.id = s.city_id WHERE s.country_id = $county_id");
 
     if ($cities_result->num_rows > 0) {
-        echo '<table class="table table-striped">';
+        echo '<table id="cities-table" class="table table-striped">';
         echo '<thead><tr><th>Város név</th><th>Műveletek</th></tr></thead>';
         echo '<tbody>';
         while ($row = $cities_result->fetch_assoc()) {
