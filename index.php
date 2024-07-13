@@ -17,7 +17,6 @@ $conn->close();
 
 <!DOCTYPE html>
 <html lang="hu">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,10 +25,8 @@ $conn->close();
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </head>
-
 <body>
     <div class="container mt-5">
         <h1>Város nyilvántartó</h1>
@@ -45,5 +42,24 @@ $conn->close();
         <div id="cities-container" class="mt-4"></div>
     </div>
 </body>
-
+<script>
+    $(document).ready(function () {
+        $('#county-select').change(function () {
+            var countyId = $(this).val();
+            console.log(countyId);
+            if (countyId) {
+                $.ajax({
+                    url: 'cities.php',
+                    type: 'post',
+                    data: {county_id: countyId},
+                    success: function (response) {
+                        $('#cities-container').html(response);
+                    }
+                });
+            } else {
+                $('#cities-container').html('');
+            }
+        });
+    });
+</script>
 </html>
