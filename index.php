@@ -79,9 +79,9 @@ $conn->close();
             var cityActions = `
                 <td><input type="text" class="form-control city-name-input" value="${cityName}"></td>
                 <td>
+                    <button class="delete-city btn btn-sm btn-danger" data-id="${cityId}">Törlés</button>
                     <button class="save-city btn btn-sm btn-primary" data-id="${cityId}">Módosítás</button>
-                    <button class="delete-city btn btn-sm btn-danger ms-2" data-id="${cityId}">Törlés</button>
-                    <button class="cancel-edit btn btn-sm btn-secondary ms-2" data-id="${cityId}">Mégsem</button>
+                    <button class="cancel-edit btn btn-sm btn-secondary" data-id="${cityId}">Mégsem</button>
                 </td>`;
             $(this).closest('tr').html(cityActions);
         });
