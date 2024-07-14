@@ -36,7 +36,7 @@ $conn->close();
         <div class="form-group">
             <label for="county-select">Válasszon megyét:</label>
             <select id="county-select" class="form-select">
-                <option value="">Válasszon</option>
+                <option value="none">Válasszon</option>
                 <?php while ($row = $counties_result->fetch_assoc()): ?>
                     <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
                 <?php endwhile; ?>
@@ -44,9 +44,10 @@ $conn->close();
         </div>
         <div id="cities-container" class="mt-4">
             <!-- Dinamikus tartalom -->
+            <div class="alert alert-danger" role="alert">Nincs kiválasztva megye.</div>
         </div>
 
-        <h4>Új város hozzáadása</h4>
+        
         <form id="add-city-form">
             <!-- Dinamikus tartalom -->
         </form>
@@ -63,7 +64,7 @@ $conn->close();
                     data: { county_id: countyId },
                     success: function (response) {
                         $('#cities-container').html(response);
-                        $('#add-city-form').html('<input type="text" id="new-city-name" class="form-control mb-2" placeholder="Város neve"><button type="submit" class="btn btn-primary">Hozzáadás</button>');
+                        $('#add-city-form').html('<h4 id="add-city-h4">Új város hozzáadása</h4><input type="text" id="new-city-name" class="form-control mb-2" placeholder="Város neve"><button type="submit" class="btn btn-primary">Hozzáadás</button>');
                     }
                 });
             } else {
