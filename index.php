@@ -56,7 +56,7 @@ $conn->close();
 <script>
     $(document).ready(function () {
         $('#county-select').change(function () {
-            var countyId = $(this).val();
+            let countyId = $(this).val();
             if (countyId) {
                 $.ajax({
                     url: 'cities.php',
@@ -74,9 +74,9 @@ $conn->close();
         });
 
         $(document).on('click', '.city-name', function () {
-            var cityId = $(this).closest('tr').attr('id').split('-')[1];
-            var cityName = $(this).text();
-            var cityActions = `
+            let cityId = $(this).closest('tr').attr('id').split('-')[1];
+            let cityName = $(this).text();
+            let cityActions = `
                 <td><input type="text" class="form-control city-name-input" value="${cityName}"></td>
                 <td>
                     <button class="delete-city btn btn-sm btn-danger" data-id="${cityId}">Törlés</button>
@@ -87,16 +87,16 @@ $conn->close();
         });
 
         $(document).on('click', '.save-city', function () {
-            var cityId = $(this).data('id');
-            var newCityName = $(this).closest('tr').find('.city-name-input').val();
+            let cityId = $(this).data('id');
+            let newCityName = $(this).closest('tr').find('.city-name-input').val();
             $.ajax({
                 url: 'edit_city.php',
                 type: 'POST',
                 data: { id: cityId, name: newCityName },
                 success: function (response) {
-                    var res = JSON.parse(response);
+                    let res = JSON.parse(response);
                     if (res.status === 'success') {
-                        var updatedRow = `
+                        let updatedRow = `
                             <tr id="city-${cityId}">
                                 <td><span class="city-name">${newCityName}</span></td>
                                 <td></td>
@@ -110,13 +110,13 @@ $conn->close();
         });
 
         $(document).on('click', '.delete-city', function () {
-            var cityId = $(this).data('id');
+            let cityId = $(this).data('id');
             $.ajax({
                 url: 'delete_city.php',
                 type: 'POST',
                 data: { id: cityId },
                 success: function (response) {
-                    var res = JSON.parse(response);
+                    let res = JSON.parse(response);
                     if (res.status === 'success') {
                         $('#city-' + cityId).remove();
                     } else {
@@ -127,7 +127,7 @@ $conn->close();
         });
 
         $(document).on('click', '.cancel-edit', function () {
-            var cityId = $(this).data('id');
+            let cityId = $(this).data('id');
             $.ajax({
                 url: 'cities.php',
                 type: 'POST',
@@ -141,22 +141,22 @@ $conn->close();
 
     $(document).on('submit', '#add-city-form', function (e) {
         e.preventDefault();
-        var countyId = $('#county-select').val();
-        var cityName = $('#new-city-name').val();
+        let countyId = $('#county-select').val();
+        let cityName = $('#new-city-name').val();
         $.ajax({
             url: 'add_city.php',
             type: 'POST',
             data: { county_id: countyId, name: cityName },
             success: function (response) {
-                var res = JSON.parse(response);
+                let res = JSON.parse(response);
                 if (res.status === 'success') {
-                    var newCityRow = `
+                    let newCityRow = `
                         <tr id="city-${res.id}">
                             <td><span class="city-name">${cityName}</span></td>
                             <td></td>
                         </tr>`;
                     if ($('#cities-table').length == 0) {
-                        var citiesTable = `
+                        let citiesTable = `
                             <table id="cities-table" class="table table-striped">
                                 <thead><tr><th>Város név</th><th>Műveletek</th></tr></thead>
                                 <tbody></tbody>
