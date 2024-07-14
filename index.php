@@ -83,6 +83,13 @@ $conn->close();
                     newCityRow += '<button class="cancel-edit btn btn-sm btn-secondary ms-2">Mégsem</button>';
                     newCityRow += '</td>';
                     newCityRow += '</tr>';
+
+                    if ($('#cities-table').length == 0) {
+                        var citiesTable = '<table id="cities-table" class="table table-striped">';
+                        citiesTable += '<thead><tr><th>Város név</th><th>Műveletek</th></tr></thead><tbody></tbody></table>';
+                        $('#cities-container').html(citiesTable);
+                    }
+
                     $('#cities-table tbody').append(newCityRow);
                     $('#new-city-name').val('');
                 } else {
