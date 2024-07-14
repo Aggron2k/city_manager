@@ -33,12 +33,6 @@ if (isset($_POST['county_id']) && !empty($_POST['county_id'])) {
     } else {
         echo '<div class="alert alert-warning" role="alert">Nincs város a kiválasztott megyében.</div>';
     }
-
-    echo '<h4>Új város hozzáadása</h4>';
-    echo '<form id="add-city-form">';
-    echo '<input type="text" id="new-city-name" class="form-control mb-2" placeholder="Város neve">';
-    echo '<button type="submit" class="btn btn-primary">Hozzáadás</button>';
-    echo '</form>';
 } else {
     echo '<div class="alert alert-danger" role="alert">Nincs kiválasztva megye.</div>';
 }

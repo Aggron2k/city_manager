@@ -42,7 +42,14 @@ $conn->close();
                 <?php endwhile; ?>
             </select>
         </div>
-        <div id="cities-container" class="mt-4"></div>
+        <div id="cities-container" class="mt-4">
+            <!-- Dinamikus tartalom -->
+        </div>
+
+        <h4>Új város hozzáadása</h4>
+        <form id="add-city-form">
+            <!-- Dinamikus tartalom -->
+        </form>
     </div>
 </body>
 <script>
@@ -56,10 +63,12 @@ $conn->close();
                     data: { county_id: countyId },
                     success: function (response) {
                         $('#cities-container').html(response);
+                        $('#add-city-form').html('<input type="text" id="new-city-name" class="form-control mb-2" placeholder="Város neve"><button type="submit" class="btn btn-primary">Hozzáadás</button>');
                     }
                 });
             } else {
                 $('#cities-container').html('');
+                $('#add-city-form').html('');
             }
         });
     });
