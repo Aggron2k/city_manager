@@ -22,9 +22,9 @@ if (isset($_POST['county_id']) && !empty($_POST['county_id']) && $_POST['county_
             echo '<tr id="city-' . $row['id'] . '">';
             echo '<td><span class="city-name">' . $row['name'] . '</span></td>';
             echo '<td>';
-            echo '<button class="edit-city btn btn-sm btn-primary" data-id="' . $row['id'] . '">Módosítás</button>';
-            echo '<button class="delete-city btn btn-sm btn-danger ms-2" data-id="' . $row['id'] . '">Törlés</button>';
-            echo '<button class="cancel-edit btn btn-sm btn-secondary ms-2">Mégsem</button>';
+            // echo '<button class="edit-city btn btn-sm btn-primary" data-id="' . $row['id'] . '">Módosítás</button>';
+            // echo '<button class="delete-city btn btn-sm btn-danger ms-2" data-id="' . $row['id'] . '">Törlés</button>';
+            // echo '<button class="cancel-edit btn btn-sm btn-secondary ms-2">Mégsem</button>';
             echo '</td>';
             echo '</tr>';
         }

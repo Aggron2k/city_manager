@@ -47,7 +47,7 @@ $conn->close();
             <div class="alert alert-danger" role="alert">Nincs kiválasztva megye.</div>
         </div>
 
-        
+
         <form id="add-city-form">
             <!-- Dinamikus tartalom -->
         </form>
@@ -72,6 +72,71 @@ $conn->close();
                 $('#add-city-form').html('');
             }
         });
+
+        $(document).on('click', '.city-name', function () {
+            var cityId = $(this).closest('tr').attr('id').split('-')[1];
+            var cityName = $(this).text();
+            var cityActions = `
+                <td><input type="text" class="form-control city-name-input" value="${cityName}"></td>
+                <td>
+                    <button class="save-city btn btn-sm btn-primary" data-id="${cityId}">Módosítás</button>
+                    <button class="delete-city btn btn-sm btn-danger ms-2" data-id="${cityId}">Törlés</button>
+                    <button class="cancel-edit btn btn-sm btn-secondary ms-2" data-id="${cityId}">Mégsem</button>
+                </td>`;
+            $(this).closest('tr').html(cityActions);
+        });
+
+        $(document).on('click', '.save-city', function () {
+            var cityId = $(this).data('id');
+            var newCityName = $(this).closest('tr').find('.city-name-input').val();
+            $.ajax({
+                url: 'edit_city.php',
+                type: 'POST',
+                data: { id: cityId, name: newCityName },
+                success: function (response) {
+                    var res = JSON.parse(response);
+                    if (res.status === 'success') {
+                        var updatedRow = `
+                            <tr id="city-${cityId}">
+                                <td><span class="city-name">${newCityName}</span></td>
+                                <td></td>
+                            </tr>`;
+                        $('#city-' + cityId).replaceWith(updatedRow);
+                    } else {
+                        alert('Módosítás sikertelen: ' + res.message);
+                    }
+                }
+            });
+        });
+
+        $(document).on('click', '.delete-city', function () {
+            var cityId = $(this).data('id');
+            $.ajax({
+                url: 'delete_city.php',
+                type: 'POST',
+                data: { id: cityId },
+                success: function (response) {
+                    var res = JSON.parse(response);
+                    if (res.status === 'success') {
+                        $('#city-' + cityId).remove();
+                    } else {
+                        alert('Törlés sikertelen: ' + res.message);
+                    }
+                }
+            });
+        });
+
+        $(document).on('click', '.cancel-edit', function () {
+            var cityId = $(this).data('id');
+            $.ajax({
+                url: 'cities.php',
+                type: 'POST',
+                data: { county_id: $('#county-select').val() },
+                success: function (response) {
+                    $('#cities-container').html(response);
+                }
+            });
+        });
     });
 
     $(document).on('submit', '#add-city-form', function (e) {
@@ -85,21 +150,19 @@ $conn->close();
             success: function (response) {
                 var res = JSON.parse(response);
                 if (res.status === 'success') {
-                    var newCityRow = '<tr id="city-' + res.id + '">';
-                    newCityRow += '<td><span class="city-name">' + cityName + '</span></td>';
-                    newCityRow += '<td>';
-                    newCityRow += '<button class="edit-city btn btn-sm btn-primary" data-id="' + res.id + '">Módosítás</button>';
-                    newCityRow += '<button class="delete-city btn btn-sm btn-danger ms-2" data-id="' + res.id + '">Törlés</button>';
-                    newCityRow += '<button class="cancel-edit btn btn-sm btn-secondary ms-2">Mégsem</button>';
-                    newCityRow += '</td>';
-                    newCityRow += '</tr>';
-
+                    var newCityRow = `
+                        <tr id="city-${res.id}">
+                            <td><span class="city-name">${cityName}</span></td>
+                            <td></td>
+                        </tr>`;
                     if ($('#cities-table').length == 0) {
-                        var citiesTable = '<table id="cities-table" class="table table-striped">';
-                        citiesTable += '<thead><tr><th>Város név</th><th>Műveletek</th></tr></thead><tbody></tbody></table>';
+                        var citiesTable = `
+                            <table id="cities-table" class="table table-striped">
+                                <thead><tr><th>Város név</th><th>Műveletek</th></tr></thead>
+                                <tbody></tbody>
+                            </table>`;
                         $('#cities-container').html(citiesTable);
                     }
-
                     $('#cities-table tbody').append(newCityRow);
                     $('#new-city-name').val('');
                 } else {
