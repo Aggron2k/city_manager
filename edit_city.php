@@ -14,11 +14,18 @@ if (isset($_POST['id']) && isset($_POST['name']) && !empty($_POST['name'])) {
     $id = $_POST['id'];
     $name = $conn->real_escape_string($_POST['name']);
 
-    $sql = "UPDATE cities SET name = '$name' WHERE id = $id";
-    if ($conn->query($sql) === TRUE) {
-        echo json_encode(['status' => 'success']);
+    $check_city_sql = "SELECT id FROM cities WHERE name = '$name'";
+    $check_city_result = $conn->query($check_city_sql);
+
+    if ($check_city_result->num_rows > 0) {
+        echo json_encode(['status' => 'error', 'message' => 'A város már létezik.']);
     } else {
-        echo json_encode(['status' => 'error', 'message' => 'A város módosítása sikertelen.']);
+        $sql = "UPDATE cities SET name = '$name' WHERE id = $id";
+        if ($conn->query($sql) === TRUE) {
+            echo json_encode(['status' => 'success']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'A város módosítása sikertelen.']);
+        }
     }
 } else {
     echo json_encode(['status' => 'error', 'message' => 'Érvénytelen vagy hiányzó adatok.']);
