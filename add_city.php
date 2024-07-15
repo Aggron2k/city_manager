@@ -14,7 +14,6 @@ if (isset($_POST['county_id']) && isset($_POST['name']) && !empty($_POST['name']
     $county_id = $_POST['county_id'];
     $name = $conn->real_escape_string($_POST['name']);
 
-    // Ellenőrizzük, hogy a város már létezik-e
     $check_city_sql = "SELECT id FROM cities WHERE name = '$name'";
     $check_city_result = $conn->query($check_city_sql);
 
@@ -22,15 +21,12 @@ if (isset($_POST['county_id']) && isset($_POST['name']) && !empty($_POST['name']
         $city_data = $check_city_result->fetch_assoc();
         $city_id = $city_data['id'];
 
-        // Ellenőrizzük, hogy van-e már aktív kapcsolat a város és bármelyik megye között
         $check_existing_active_sql = "SELECT id FROM support WHERE city_id = $city_id AND deleted = 0";
         $check_existing_active_result = $conn->query($check_existing_active_sql);
 
         if ($check_existing_active_result->num_rows > 0) {
-            // Van már aktív kapcsolat, hiba
-            echo json_encode(['status' => 'error', 'message' => 'A város már kapcsolva van egy másik megyéhez.']);
+            echo json_encode(['status' => 'error', 'message' => 'A város már kapcsolva van egy megyéhez.']);
         } else {
-            // Ellenőrizzük, hogy van-e már kapcsolat a város és a megye között, bármilyen állapotban
             $check_existing_sql = "SELECT id, deleted FROM support WHERE city_id = $city_id AND country_id = $county_id";
             $check_existing_result = $conn->query($check_existing_sql);
 
@@ -40,10 +36,8 @@ if (isset($_POST['county_id']) && isset($_POST['name']) && !empty($_POST['name']
                 $deleted = $existing_data['deleted'];
 
                 if ($deleted == 0) {
-                    // A kapcsolat már aktív, hibát jelez
                     echo json_encode(['status' => 'error', 'message' => 'A város már kapcsolva van ehhez a megyéhez.']);
                 } else {
-                    // A kapcsolat törölt, visszaállítjuk
                     $update_support_sql = "UPDATE support SET deleted = 0 WHERE id = $support_id";
                     if ($conn->query($update_support_sql) === TRUE) {
                         echo json_encode(['status' => 'success', 'id' => $city_id]);
@@ -52,7 +46,6 @@ if (isset($_POST['county_id']) && isset($_POST['name']) && !empty($_POST['name']
                     }
                 }
             } else {
-                // Nincs meglévő kapcsolat, hozzáadjuk az új kapcsolatot
                 $insert_support_sql = "INSERT INTO support (country_id, city_id, deleted) VALUES ($county_id, $city_id, 0)";
                 if ($conn->query($insert_support_sql) === TRUE) {
                     echo json_encode(['status' => 'success', 'id' => $city_id]);
@@ -62,7 +55,6 @@ if (isset($_POST['county_id']) && isset($_POST['name']) && !empty($_POST['name']
             }
         }
     } else {
-        // A város nem létezik, hozzáadjuk új városként és a kapcsolatot is
         $insert_city_sql = "INSERT INTO cities (name, deleted) VALUES ('$name', 0)";
         if ($conn->query($insert_city_sql) === TRUE) {
             $city_id = $conn->insert_id;

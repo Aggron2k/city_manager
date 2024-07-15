@@ -57,18 +57,22 @@ $conn->close();
     $(document).ready(function () {
         $('#county-select').change(function () {
             let countyId = $(this).val();
-            if (countyId && countyId !== 'none') {
+            if (countyId) {
                 $.ajax({
                     url: 'cities.php',
                     type: 'post',
                     data: { county_id: countyId },
                     success: function (response) {
                         $('#cities-container').html(response);
-                        $('#add-city-form').html(`
+                        if (countyId !== 'none') {
+                            $('#add-city-form').html(`
                             <h4 id="add-city-h4">Új város hozzáadása</h4>
                             <input type="text" id="new-city-name" class="form-control mb-2" placeholder="Város neve">
                             <button type="submit" class="btn btn-primary">Hozzáadás</button>
                         `);
+                        } else {
+                            $('#add-city-form').html('');
+                        }
                     }
                 });
             } else {

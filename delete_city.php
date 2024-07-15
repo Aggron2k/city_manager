@@ -16,7 +16,6 @@ if (isset($_POST['id'])) {
     $conn->begin_transaction();
 
     try {
-        // Először a kapcsolattáblában soft delete
         $sql_support = "UPDATE support SET deleted = 1 WHERE city_id = ?";
         $stmt_support = $conn->prepare($sql_support);
         $stmt_support->bind_param("i", $id);
@@ -24,7 +23,6 @@ if (isset($_POST['id'])) {
 
         $conn->commit();
 
-        // Ellenőrizzük, hogy a megyei kapcsolatok közül mind soft delete-elve van-e
         $sql_get_countries = "SELECT DISTINCT country_id FROM support WHERE city_id = ?";
         $stmt_get_countries = $conn->prepare($sql_get_countries);
         $stmt_get_countries->bind_param("i", $id);
