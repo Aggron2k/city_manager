@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 15, 2024 at 04:19 PM
+-- Generation Time: Jul 15, 2024 at 07:16 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -29,25 +29,24 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `cities` (
   `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `deleted` tinyint(1) DEFAULT 0
+  `name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `cities`
 --
 
-INSERT INTO `cities` (`id`, `name`, `deleted`) VALUES
-(1, 'Budapest', 0),
-(2, 'Debrecen', 0),
-(3, 'Szeged', 0),
-(4, 'Miskolc', 0),
-(5, 'Pécs', 0),
-(6, 'Győr', 0),
-(7, 'Nyíregyháza', 0),
-(8, 'Kecskemét', 0),
-(9, 'Székesfehérvár', 0),
-(10, 'Szombathely', 0);
+INSERT INTO `cities` (`id`, `name`) VALUES
+(1, 'Budapest'),
+(2, 'Debrecen'),
+(3, 'Szeged'),
+(4, 'Miskolc'),
+(5, 'Pécs'),
+(6, 'Győr'),
+(7, 'Nyíregyháza'),
+(8, 'Kecskemét'),
+(9, 'Székesfehérvár'),
+(10, 'Szombathely');
 
 -- --------------------------------------------------------
 

@@ -55,7 +55,7 @@ if (isset($_POST['county_id']) && isset($_POST['name']) && !empty($_POST['name']
             }
         }
     } else {
-        $insert_city_sql = "INSERT INTO cities (name, deleted) VALUES ('$name', 0)";
+        $insert_city_sql = "INSERT INTO cities (name) VALUES ('$name')";
         if ($conn->query($insert_city_sql) === TRUE) {
             $city_id = $conn->insert_id;
             $insert_support_sql = "INSERT INTO support (country_id, city_id, deleted) VALUES ($county_id, $city_id, 0)";
