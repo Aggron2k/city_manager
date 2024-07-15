@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 13, 2024 at 11:09 PM
+-- Generation Time: Jul 15, 2024 at 04:19 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -29,24 +29,25 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `cities` (
   `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL
+  `name` varchar(255) NOT NULL,
+  `deleted` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `cities`
 --
 
-INSERT INTO `cities` (`id`, `name`) VALUES
-(1, 'Budapest'),
-(2, 'Debrecen'),
-(3, 'Szeged'),
-(4, 'Miskolc'),
-(5, 'Pécs'),
-(6, 'Győr'),
-(7, 'Nyíregyháza'),
-(8, 'Kecskemét'),
-(9, 'Székesfehérvár'),
-(10, 'Szombathely');
+INSERT INTO `cities` (`id`, `name`, `deleted`) VALUES
+(1, 'Budapest', 0),
+(2, 'Debrecen', 0),
+(3, 'Szeged', 0),
+(4, 'Miskolc', 0),
+(5, 'Pécs', 0),
+(6, 'Győr', 0),
+(7, 'Nyíregyháza', 0),
+(8, 'Kecskemét', 0),
+(9, 'Székesfehérvár', 0),
+(10, 'Szombathely', 0);
 
 -- --------------------------------------------------------
 
@@ -93,24 +94,25 @@ INSERT INTO `country` (`id`, `name`) VALUES
 CREATE TABLE `support` (
   `id` int(11) NOT NULL,
   `country_id` int(11) DEFAULT NULL,
-  `city_id` int(11) DEFAULT NULL
+  `city_id` int(11) DEFAULT NULL,
+  `deleted` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `support`
 --
 
-INSERT INTO `support` (`id`, `country_id`, `city_id`) VALUES
-(1, 1, 8),
-(2, 2, 5),
-(3, 4, 4),
-(4, 5, 3),
-(5, 6, 9),
-(6, 7, 6),
-(7, 8, 2),
-(8, 13, 1),
-(9, 15, 7),
-(10, 17, 10);
+INSERT INTO `support` (`id`, `country_id`, `city_id`, `deleted`) VALUES
+(1, 1, 8, 0),
+(2, 2, 5, 0),
+(3, 4, 4, 0),
+(4, 5, 3, 0),
+(5, 6, 9, 0),
+(6, 7, 6, 0),
+(7, 8, 2, 0),
+(8, 13, 1, 0),
+(9, 15, 7, 0),
+(10, 17, 10, 0);
 
 --
 -- Indexes for dumped tables
