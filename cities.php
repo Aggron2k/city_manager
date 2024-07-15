@@ -16,7 +16,7 @@ if (isset($_POST['county_id']) && !empty($_POST['county_id']) && $_POST['county_
 
     if ($cities_result->num_rows > 0) {
         echo '<table id="cities-table" class="table table-striped">';
-        echo '<thead><tr><th>Város név</th><th>Műveletek</th></tr></thead>';
+        echo '<thead><tr><th>Város név</th></tr></thead>';
         echo '<tbody>';
         while ($row = $cities_result->fetch_assoc()) {
             echo '<tr id="city-' . $row['id'] . '">';

@@ -119,6 +119,9 @@ $conn->close();
                     let res = JSON.parse(response);
                     if (res.status === 'success') {
                         $('#city-' + cityId).remove();
+                        if (res.no_cities) {
+                            $('#cities-container').html('<div class="alert alert-warning" role="alert">Nincs város a kiválasztott megyében.</div>');
+                        }
                     } else {
                         alert('Törlés sikertelen: ' + res.message);
                     }
@@ -158,7 +161,7 @@ $conn->close();
                     if ($('#cities-table').length == 0) {
                         let citiesTable = `
                             <table id="cities-table" class="table table-striped">
-                                <thead><tr><th>Város név</th><th>Műveletek</th></tr></thead>
+                                <thead><tr><th>Város név</th></tr></thead>
                                 <tbody></tbody>
                             </table>`;
                         $('#cities-container').html(citiesTable);
