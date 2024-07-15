@@ -47,24 +47,28 @@ $conn->close();
             <div class="alert alert-danger" role="alert">Nincs kiválasztva megye.</div>
         </div>
 
-
         <form id="add-city-form">
             <!-- Dinamikus tartalom -->
         </form>
     </div>
 </body>
+
 <script>
     $(document).ready(function () {
         $('#county-select').change(function () {
             let countyId = $(this).val();
-            if (countyId) {
+            if (countyId && countyId !== 'none') {
                 $.ajax({
                     url: 'cities.php',
                     type: 'post',
                     data: { county_id: countyId },
                     success: function (response) {
                         $('#cities-container').html(response);
-                        $('#add-city-form').html('<h4 id="add-city-h4">Új város hozzáadása</h4><input type="text" id="new-city-name" class="form-control mb-2" placeholder="Város neve"><button type="submit" class="btn btn-primary">Hozzáadás</button>');
+                        $('#add-city-form').html(`
+                            <h4 id="add-city-h4">Új város hozzáadása</h4>
+                            <input type="text" id="new-city-name" class="form-control mb-2" placeholder="Város neve">
+                            <button type="submit" class="btn btn-primary">Hozzáadás</button>
+                        `);
                     }
                 });
             } else {
@@ -77,12 +81,13 @@ $conn->close();
             let cityId = $(this).closest('tr').attr('id').split('-')[1];
             let cityName = $(this).text();
             let cityActions = `
-            <td><input type="text" class="form-control city-name-input" value="${cityName}"></td>
-            <td>
-                <button class="delete-city btn btn-sm btn-danger" data-id="${cityId}">Törlés</button>
-                <button class="save-city btn btn-sm btn-primary" data-id="${cityId}">Módosítás</button>
-                <button class="cancel-edit btn btn-sm btn-secondary" data-id="${cityId}">Mégsem</button>
-            </td>`;
+                <td><input type="text" class="form-control city-name-input" value="${cityName}"></td>
+                <td>
+                    <button class="delete-city btn btn-sm btn-danger" data-id="${cityId}">Törlés</button>
+                    <button class="save-city btn btn-sm btn-primary" data-id="${cityId}">Módosítás</button>
+                    <button class="cancel-edit btn btn-sm btn-secondary" data-id="${cityId}">Mégsem</button>
+                </td>
+            `;
             $(this).closest('tr').html(cityActions);
         });
 
@@ -97,10 +102,11 @@ $conn->close();
                     let res = JSON.parse(response);
                     if (res.status === 'success') {
                         let updatedRow = `
-                        <tr id="city-${cityId}">
-                            <td><span class="city-name">${newCityName}</span></td>
-                            <td></td>
-                        </tr>`;
+                            <tr id="city-${cityId}">
+                                <td><span class="city-name">${newCityName}</span></td>
+                                <td></td>
+                            </tr>
+                        `;
                         $('#city-' + cityId).replaceWith(updatedRow);
                     } else {
                         alert('Módosítás sikertelen: ' + res.message);
@@ -139,10 +145,11 @@ $conn->close();
                     let res = JSON.parse(response);
                     if (res.status === 'success') {
                         let originalRow = `
-                        <tr id="city-${cityId}">
-                            <td><span class="city-name">${res.name}</span></td>
-                            <td></td>
-                        </tr>`;
+                            <tr id="city-${cityId}">
+                                <td><span class="city-name">${res.name}</span></td>
+                                <td></td>
+                            </tr>
+                        `;
                         $('#city-' + cityId).replaceWith(originalRow);
                     } else {
                         alert('Hiba történt: ' + res.message);
@@ -163,16 +170,18 @@ $conn->close();
                     let res = JSON.parse(response);
                     if (res.status === 'success') {
                         let newCityRow = `
-                        <tr id="city-${res.id}">
-                            <td><span class="city-name">${cityName}</span></td>
-                            <td></td>
-                        </tr>`;
+                            <tr id="city-${res.id}">
+                                <td><span class="city-name">${cityName}</span></td>
+                                <td></td>
+                            </tr>
+                        `;
                         if ($('#cities-table').length == 0) {
                             let citiesTable = `
-                            <table id="cities-table" class="table table-striped">
-                                <thead><tr><th>Város név</th></tr></thead>
-                                <tbody></tbody>
-                            </table>`;
+                                <table id="cities-table" class="table table-striped">
+                                    <thead><tr><th>Város név</th></tr></thead>
+                                    <tbody></tbody>
+                                </table>
+                            `;
                             $('#cities-container').html(citiesTable);
                         }
                         $('#cities-table tbody').append(newCityRow);
@@ -185,5 +194,6 @@ $conn->close();
         });
     });
 </script>
+
 
 </html>
