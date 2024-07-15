@@ -16,7 +16,7 @@ if (isset($_POST['id'])) {
     $conn->begin_transaction();
 
     try {
-        $sql_get_countries = "SELECT DISTINCT country_id FROM support WHERE city_id = ?";
+        $sql_get_countries = "SELECT DISTINCT country_id FROM support WHERE city_id = ? AND deleted = 0";
         $stmt_get_countries = $conn->prepare($sql_get_countries);
         $stmt_get_countries->bind_param("i", $id);
         $stmt_get_countries->execute();
@@ -26,12 +26,12 @@ if (isset($_POST['id'])) {
             $country_ids[] = $row_countries['country_id'];
         }
 
-        $sql_support = "DELETE FROM support WHERE city_id = ?";
+        $sql_support = "UPDATE support SET deleted = 1 WHERE city_id = ?";
         $stmt_support = $conn->prepare($sql_support);
         $stmt_support->bind_param("i", $id);
         $stmt_support->execute();
 
-        $sql_city = "DELETE FROM cities WHERE id = ?";
+        $sql_city = "UPDATE cities SET deleted = 1 WHERE id = ?";
         $stmt_city = $conn->prepare($sql_city);
         $stmt_city->bind_param("i", $id);
         $stmt_city->execute();
@@ -40,7 +40,7 @@ if (isset($_POST['id'])) {
 
         $no_cities = false;
         foreach ($country_ids as $country_id) {
-            $sql_check = "SELECT COUNT(*) as city_count FROM support WHERE country_id = ?";
+            $sql_check = "SELECT COUNT(*) as city_count FROM support WHERE country_id = ? AND deleted = 0";
             $stmt_check = $conn->prepare($sql_check);
             $stmt_check->bind_param("i", $country_id);
             $stmt_check->execute();

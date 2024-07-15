@@ -12,7 +12,7 @@ if ($conn->connect_error) {
 
 if (isset($_POST['county_id']) && !empty($_POST['county_id']) && $_POST['county_id'] != "none") {
     $county_id = $_POST['county_id'];
-    $cities_result = $conn->query("SELECT c.id, c.name FROM cities c JOIN support s ON c.id = s.city_id WHERE s.country_id = $county_id");
+    $cities_result = $conn->query("SELECT c.id, c.name FROM cities c JOIN support s ON c.id = s.city_id WHERE s.country_id = $county_id AND c.deleted = 0 AND s.deleted = 0");
 
     if ($cities_result->num_rows > 0) {
         echo '<table id="cities-table" class="table table-striped">';
