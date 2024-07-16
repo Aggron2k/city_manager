@@ -98,15 +98,16 @@ $conn->close();
         $(document).on('click', '.save-city', function () {
             let cityId = $(this).data('id');
             let newCityName = $(this).closest('tr').find('.city-name-input').val();
+            let countryId = $(this).closest('tr').data('country-id');
             $.ajax({
                 url: 'edit_city.php',
                 type: 'POST',
-                data: { id: cityId, name: newCityName },
+                data: { id: cityId, name: newCityName, country_id: countryId },
                 success: function (response) {
                     let res = JSON.parse(response);
                     if (res.status === 'success') {
                         let updatedRow = `
-                            <tr id="city-${cityId}">
+                            <tr id="city-${cityId}" data-country-id="${countryId}">
                                 <td><span class="city-name">${newCityName}</span></td>
                                 <td></td>
                             </tr>
@@ -174,7 +175,7 @@ $conn->close();
                     let res = JSON.parse(response);
                     if (res.status === 'success') {
                         let newCityRow = `
-                            <tr id="city-${res.id}">
+                            <tr id="city-${res.id}" data-country-id="${countyId}">
                                 <td><span class="city-name">${cityName}</span></td>
                                 <td></td>
                             </tr>

@@ -19,7 +19,7 @@ if (isset($_POST['county_id']) && !empty($_POST['county_id']) && $_POST['county_
         echo '<thead><tr><th>Város név</th></tr></thead>';
         echo '<tbody>';
         while ($row = $cities_result->fetch_assoc()) {
-            echo '<tr id="city-' . $row['id'] . '">';
+            echo '<tr id="city-' . $row['id'] . '" data-country-id="' . $county_id . '">';
             echo '<td><span class="city-name">' . $row['name'] . '</span></td>';
             echo '<td>';
             echo '</td>';
